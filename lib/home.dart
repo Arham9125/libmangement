@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:libmanagement/bucket.dart';
+import 'package:libmanagement/function/cart.dart';
 import 'package:libmanagement/grid.dart';
 import 'package:libmanagement/model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScr extends StatefulWidget {
   @override
@@ -51,6 +54,27 @@ class _HomeScrState extends State<HomeScr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Your App Name'),
+        actions: [
+          Consumer<CartModel>(
+            builder: (context, cart, child) {
+              return IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  // Navigate to the bucket screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Bucket()),
+                  );
+                },
+                // Display the number of items in the cart
+                tooltip: 'Cart (${cart.cartitems.length})',
+              );
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -78,83 +102,93 @@ class _HomeScrState extends State<HomeScr> {
                     hintText: "Search the book",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                 // Outline border color
+                      // Outline border color
                     ),
                   ),
                 ),
               ),
               Expanded(
                 child: FutureBuilder(
-                    future: getpostapi(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("ERROR ${snapshot.error}"));
-                      } else {
-                        postlist = snapshot.data as List<BookModel>;
-                        return GridView.builder(
-                          padding: EdgeInsets.all(8),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, childAspectRatio: 1 / 1.7),
-                          itemCount: filteredList.length,
-                          itemBuilder: (context, index) {
-                            return Expanded(
-                              child: Card(
-                              
-                                child: SizedBox(
-                                  height: 200,
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return Good(
-                                                book: filteredList[index]);
-                                          }));
-                                        },
-                                        child: ClipRRect(
-                                          
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Expanded(
-                                            child:  Image.network(
-                                            postlist[index]
-                                                  .thumbnail
-                                                  .toString(),
-                                              fit: BoxFit.contain,
-                                            ) ?? Image.asset("images/bg.png") ,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        filteredList[index].title.toString(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                          "ID: ${filteredList[index].id.toString()}"),
-                                    ],
+                  future: getpostapi(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("ERROR ${snapshot.error}"));
+                    } else {
+                      postlist = snapshot.data as List<BookModel>;
+                      return GridView.builder(
+                        padding: EdgeInsets.all(8),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 1 / 1.7),
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Good(
+                                    book: filteredList[index],
                                   ),
                                 ),
+                              );
+                            },
+                            child: Hero(
+                              tag: 'bookImage${filteredList[index].id}',
+                              child: Card(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                        
+                                         decoration: BoxDecoration(
+                                           color: Colors.red.shade300,
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                                          child: IconButton(
+  onPressed: () {
+    Provider.of<CartModel>(context, listen: false)
+        .addtocart(filteredList[index]);
+  },
+  icon: Icon(Icons.add),
+),
+                                          ),
+                                      
+                                      )
+                                      ),
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          filteredList[index].thumbnail.toString(),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Text(
+                                      filteredList[index].title.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("ID: ${filteredList[index].id.toString()}"),
+                                  ],
+                                ),
                               ),
-                            );
-                          },
-                        );
-                      }
-                    }),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
             ],
           ),
@@ -163,3 +197,4 @@ class _HomeScrState extends State<HomeScr> {
     );
   }
 }
+
