@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:libmanagement/components/directory.dart';
 import 'package:libmanagement/function/databasefunc.dart';
 import 'package:libmanagement/model.dart';
-
+import 'package:url_launcher/link.dart';
 
 class Good extends StatefulWidget {
   final BookModel book;
@@ -30,7 +29,11 @@ class _GoodState extends State<Good> {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DatabaseOptions()),
+                  MaterialPageRoute(
+                    builder: (context) => DatabaseOptions(
+                      bookName: widget.book.title.toString(),
+                    ),
+                  ),
                 );
               },
               child: Text("OK"),
@@ -126,6 +129,62 @@ class _GoodState extends State<Good> {
                     ),
                   ),
                   SizedBox(height: 16),
+
+
+
+Padding(
+  padding:  EdgeInsets.all(8.0),
+  child: Container(
+    padding: EdgeInsets.all(20),
+    height: MediaQuery.of(context).size.height*0.1,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.red.shade200
+    ),
+    child: GestureDetector(
+      onTap: (){
+        showModalBottomSheet(context: context, builder: (context) {
+          return Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Link(
+        uri: Uri.parse(widget.book.bookUrl.toString()), 
+        builder: (context, followLink) {
+          return GestureDetector(
+            onTap: followLink, 
+            child: Center(
+              child: Text(
+                "Open Full Book",
+                style: TextStyle(
+                  color: Colors.white, 
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                 
+                ),
+              ),
+            ),
+          );
+        },
+              ));
+        });
+      },
+      child:Center(
+              child: Text(
+                "Open Full Book",
+                style: TextStyle(
+                  color: Colors.white, 
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                 
+                ),
+              ),
+            ),
+    ),
+  ),
+),
+
+
+                   SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
                       _showSuccessDialog(context);

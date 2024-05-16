@@ -55,11 +55,12 @@ class _HomeScrState extends State<HomeScr> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your App Name'),
+        title: Text('Book Shop'),
         actions: [
           Consumer<CartModel>(
             builder: (context, cart, child) {
               return IconButton(
+              
                 icon: Icon(Icons.shopping_cart),
                 onPressed: () {
                   // Navigate to the bucket screen
@@ -149,6 +150,7 @@ class _HomeScrState extends State<HomeScr> {
                                            color: Colors.red.shade300,
                                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
                                           child: IconButton(
+                                            color: Colors.white,
   onPressed: () {
     Provider.of<CartModel>(context, listen: false)
         .addtocart(filteredList[index]);

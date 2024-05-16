@@ -19,12 +19,32 @@ double price = 1;
                   itemBuilder: (context, index) {
                     final item = cart.cartitems[index];
                     return ListTile(
-                      title: Text(item.title),
+                      trailing:Padding(
+                        padding:  EdgeInsets.only(right: 10),
+                        child: IconButton(
+                            icon: Icon(Icons.remove_circle),
+                            onPressed: () {
+                              cart.removetocart(index); 
+                            },
+                          ),
+                      ),
+                      title: Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height*0.2,
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Card(
+                            elevation: 2,
+                            child: Center(child: Text("${1 + index} :  ${item.title}", style: TextStyle(fontWeight: FontWeight.bold, 
+                            fontSize: 17
+                            ),))),
+                        ),
+                      ),
                     );
                   },
                 ),
               ),
-              Text('Total Price:'), // Displaying the total price
+             
             ],
           );
         },
