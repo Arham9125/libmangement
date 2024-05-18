@@ -1,7 +1,8 @@
 class BookModel {
   String? id, title, subtitle, description, thumbnail, bookUrl;
+  
 
-  BookModel({this.id, this.title, this.subtitle, this.description, this.thumbnail, this.bookUrl});
+  BookModel({this.id, this.title, this.subtitle, this.description, this.thumbnail, this.bookUrl,});
 
   factory BookModel.fromJson(Map<String, dynamic> data) {
     String getThumbnailSafety(Map<String, dynamic> data) {

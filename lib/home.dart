@@ -16,6 +16,8 @@ class _HomeScrState extends State<HomeScr> {
   List<BookModel> postlist = [];
   List<BookModel> filteredList = []; // List to store filtered results
 
+  
+
   final url =
       "https://www.googleapis.com/books/v1/volumes?q=your_search_query_here";
 
@@ -149,14 +151,24 @@ class _HomeScrState extends State<HomeScr> {
                                          decoration: BoxDecoration(
                                            color: Colors.red.shade300,
                                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
-                                          child: IconButton(
-                                            color: Colors.white,
-  onPressed: () {
-    Provider.of<CartModel>(context, listen: false)
-        .addtocart(filteredList[index]);
-  },
-  icon: Icon(Icons.add),
-),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+
+                                              Text("  ${CartModel().p} \$", style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold
+                                              ),),
+                                              IconButton(
+                                                color: Colors.white,
+                                                onPressed: () {
+                                                  Provider.of<CartModel>(context, listen: false)
+                                                      .addtocart(filteredList[index]);
+                                                },
+                                                icon: Icon(Icons.add),
+                                              ),
+                                            ],
+                                          ),
                                           ),
                                       
                                       )
@@ -181,6 +193,8 @@ class _HomeScrState extends State<HomeScr> {
                                     ),
                                     SizedBox(height: 10),
                                     Text("ID: ${filteredList[index].id.toString()}"),
+
+                                    
                                   ],
                                 ),
                               ),

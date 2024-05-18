@@ -2,14 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:libmanagement/model.dart';
 import 'package:provider/provider.dart'; // Import provider package
 class CartModel extends ChangeNotifier{
- List _shopitem = [];
+
+
+ double  _p = 1;
+
+ final List<BookModel> _shopitem = [];
 
 
 
 
 //List cart items//
 
-List _cartitems = [];
+final List _cartitems = [];
+
+double get p => _p;
+
+
 
 get shopitem => _shopitem;
 
@@ -26,7 +34,7 @@ notifyListeners();
 
 }
 
-//remove
+
 void removetocart(int index){
 
 cartitems.removeAt(index);
@@ -37,14 +45,23 @@ notifyListeners();
 
 ///calculate
 
- String calculateTotal() {
-    double totalPrice = 0;
-    for (int i = 0; i < cartitems.length; i++) {
-      totalPrice += double.parse(cartitems[i][3]);
-    }
-    return totalPrice.toStringAsFixed(2);
-  }
+String calculateTotal() {
+    
+  double totalprice = 0;
+
+ for(int i=0; i < _cartitems.length; i++){
+
+  
+
+  totalprice += double.parse(_cartitems[i][_p]);
+
+ }
+
+ return totalprice.toStringAsFixed(2);
+
 }
+}
+
 
 
 

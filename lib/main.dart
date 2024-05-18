@@ -24,11 +24,7 @@ class MyApp extends StatelessWidget {
       
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-       iconTheme: IconThemeData(color: Colors.pink),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
-        useMaterial3: true,
-      ),
+    
       home:  HomeScr())
     );
  
