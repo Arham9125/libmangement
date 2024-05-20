@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:libmanagement/components/directory.dart';
 import 'package:libmanagement/home.dart';
 
-class DatabaseOptions extends StatelessWidget {
+class DatabaseOption extends StatelessWidget {
    final String bookName;
-   DatabaseOptions({required this.bookName});
+   DatabaseOption({required this.bookName});
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
   TextEditingController bookname = TextEditingController();
@@ -35,22 +35,22 @@ class DatabaseOptions extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20))),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height*0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Container(
+            //     width: double.infinity,
+            //     height: MediaQuery.of(context).size.height*0.08,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(20),
                 
-                  border: Border.all(width: 1, color: Colors.black54)
-                ),
-                child: Center(
-                  child: Text("BookName: ${bookName}", textAlign: TextAlign.center, style: TextStyle(
+            //       border: Border.all(width: 1, color: Colors.black54)
+            //     ),
+            //     child: Center(
+            //       child: Text("BookName: ${bookname.text}", textAlign: TextAlign.center, style: TextStyle(
                     
-                    fontSize: 15, fontWeight: FontWeight.bold),),
-                )),
-            ),
+            //         fontSize: 15, fontWeight: FontWeight.bold),),
+            //     )),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -143,7 +143,7 @@ class DatabaseOptions extends StatelessWidget {
                    actions: [
                     ElevatedButton(onPressed: () {
                       Navigator.of(context).pop();
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                         return HomeScr();
                       }
                       )

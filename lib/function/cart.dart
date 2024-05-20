@@ -4,7 +4,10 @@ import 'package:provider/provider.dart'; // Import provider package
 class CartModel extends ChangeNotifier{
 
 
- double  _p = 1;
+ final double  _p = 1;
+
+
+  
 
  final List<BookModel> _shopitem = [];
 
@@ -46,20 +49,21 @@ notifyListeners();
 ///calculate
 
 String calculateTotal() {
-    
   double totalprice = 0;
 
- for(int i=0; i < _cartitems.length; i++){
+  for (int i = 1; i <= _cartitems.length; i++) {
+    totalprice = i * p;
 
+
+
+  }
+
+  print("Total $totalprice");
   
 
-  totalprice += double.parse(_cartitems[i][_p]);
-
- }
-
- return totalprice.toStringAsFixed(2);
-
+  return totalprice.toStringAsFixed(2);
 }
+
 }
 
 
