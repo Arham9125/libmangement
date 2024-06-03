@@ -1,4 +1,4 @@
-# libmanagement
+# BookshopApp
 
 A new Flutter project.
 
